@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HiHi農場 | 後龍清晨的紫色寶石</title>
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- 引入 Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <script>
+        // 設定 Tailwind 自訂主題色
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans TC"', 'sans-serif'],
+                    },
+                    colors: {
+                        blueberry: {
+                            50: '#f0f5ff',
+                            100: '#e4ecff',
+                            500: '#3b5bdb',
+                            800: '#233876', // 主題深藍
+                            900: '#1e2b58', // 更深的藍
+                        },
+                        farm: {
+                            50: '#faf9f6', // 米白底色
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 隱藏捲軸但保留滾動功能 */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        /* 漸層遮罩 */
+        .hero-gradient {
+            background: linear-gradient(to right, rgba(30, 43, 88, 0.9), rgba(30, 43, 88, 0.4));
+        }
+    </style>
+</head>
+<body class="bg-farm-50 text-gray-800 font-sans antialiased">
+
+    <!-- 導覽列 -->
+    <header class="fixed w-full top-0 z-40 bg-white/90 backdrop-blur-md shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+            <a href="#" class="text-2xl font-bold text-blueberry-900 flex items-center gap-2">
+                <i class="ph-fill ph-plant text-blueberry-500"></i>
+                HiHi農場
+            </a>
+            <nav class="hidden md:flex gap-6 text-sm font-medium text-gray-600">
+                <a href="#about" class="hover:text-blueberry-500 transition">農場故事</a>
+                <a href="#products" class="hover:text-blueberry-500 transition">藍莓商品</a>
+            </nav>
+            <button onclick="toggleCart()" class="relative p-2 text-blueberry-900 hover:bg-blueberry-50 rounded-full transition">
+                <i class="ph ph-shopping-cart text-2xl"></i>
+                <span id="cart-badge" class="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full hidden">0</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero 區塊 -->
+    <section class="relative pt-16 h-[80vh] min-h-[500px] flex items-center">
+        <!-- 背景圖片 (使用 Unsplash 藍莓示意圖) -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1498557850523-fd3d118b962e?q=80&w=2069&auto=format&fit=crop" alt="藍莓" class="w-full h-full object-cover" />
+            <div class="absolute inset-0 hero-gradient"></div>
+        </div>
+        
+        <div class="relative z-10 max-w-6xl mx-auto px-4 w-full">
+            <div class="max-w-xl text-white">
+                <span class="inline-block py-1 px-3 rounded-full bg-blueberry-500/30 border border-blueberry-300 text-sm mb-4">苗栗後龍・在地友善耕作</span>
+                <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6">後龍清晨的<br>紫色寶石</h1>
+                <p class="text-lg text-gray-200 mb-8 leading-relaxed">每一顆藍莓，都蘊含著後龍的陽光與海風。我們堅持無毒友善耕作，只為給您最純淨、最鮮甜的自然滋味。</p>
+                <a href="#products" class="inline-flex items-center gap-2 bg-white text-blueberry-900 font-bold py-3 px-8 rounded-full hover:bg-blueberry-50 hover:shadow-lg transition-all duration-300">
+                    立即選購 <i class="ph-bold ph-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 品牌故事 (Brand Story) -->
+    <section id="about" class="py-20 bg-farm-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="rounded-2xl overflow-hidden shadow-xl">
+                    <img src="https://images.unsplash.com/photo-1592982537447-6f2c6e0c2ed1?q=80&w=2069&auto=format&fit=crop" alt="農場風光" class="w-full h-[400px] object-cover hover:scale-105 transition duration-700">
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold text-blueberry-900 mb-6">職人精神的堅持</h2>
+                    <h3 class="text-xl text-blueberry-500 font-medium mb-4">農場主人 - 陳志偉 (Boss Zhi-wei)</h3>
+                    <p class="text-gray-600 leading-relaxed mb-4">
+                        「農業不只是種植，更是與土地的對話。」<br>
+                        回到苗栗後龍這片故鄉的土地，志偉哥看見了不同的可能性。後龍獨特的風土環境，雖然充滿挑戰，卻也孕育出風味層次豐富的果實。
+                    </p>
+                    <p class="text-gray-600 leading-relaxed">
+                        HiHi農場從不使用化學農藥與除草劑，我們以人工除草、草生栽培，讓果樹在最自然的環境中生長。採收時，我們於清晨露水未乾前手工摘採，確保送到您手中的每一顆「紫色寶石」，都保留著最完美的新鮮與果霜。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 商品列表 (Product List) -->
+    <section id="products" class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-blueberry-900 mb-4">農場直送嚴選</h2>
+                <p class="text-gray-500">新鮮現採鮮果與手工天然加工品</p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" id="product-container">
+                <!-- 商品卡片會由 JavaScript 動態生成 -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 頁尾 (Footer) -->
+    <footer class="bg-blueberry-900 text-blueberry-100 py-12">
+        <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-3 gap-8">
+            <div>
+                <h4 class="text-2xl font-bold text-white flex items-center gap-2 mb-4">
+                    <i class="ph-fill ph-plant"></i> HiHi農場
+                </h4>
+                <p class="text-sm text-blueberry-200">後龍清晨的紫色寶石，在地友善耕作，帶給您最純淨的自然風味。</p>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold text-white mb-4">聯絡我們</h4>
+                <ul class="space-y-2 text-sm">
+                    <li class="flex items-center gap-2"><i class="ph ph-user"></i> 農場主人：陳志偉</li>
+                    <li class="flex items-center gap-2"><i class="ph ph-phone"></i> 0912-345-678</li>
+                    <li class="flex items-center gap-2"><i class="ph ph-map-pin"></i> 苗栗縣後龍鎮 (採預約制拜訪)</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold text-white mb-4">社群連結</h4>
+                <div class="flex gap-4">
+                    <a href="#" class="w-10 h-10 rounded-full bg-blueberry-800 flex items-center justify-center hover:bg-blueberry-500 transition text-white">
+                        <i class="ph-logo-facebook text-xl"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-blueberry-800 flex items-center justify-center hover:bg-blueberry-500 transition text-white">
+                        <i class="ph-logo-instagram text-xl"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-blueberry-800 flex items-center justify-center hover:bg-green-500 transition text-white">
+                        <i class="ph-chat-circle-text text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-6xl mx-auto px-4 text-center text-xs text-blueberry-300 mt-12 pt-8 border-t border-blueberry-800">
+            &copy; 2026 HiHi Farm. All rights reserved. Designed for Vibe Coding.
+        </div>
+    </footer>
+
+    <!-- ================= 互動元件區域 ================= -->
+
+    <!-- 側邊購物車 (Sidebar Cart) -->
+    <div id="cart-overlay" class="fixed inset-0 bg-black/50 z-50 hidden opacity-0 transition-opacity duration-300" onclick="toggleCart()"></div>
+    <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full sm:w-96 bg-white z-50 transform translate-x-full transition-transform duration-300 shadow-2xl flex flex-col">
+        <div class="p-4 border-b flex justify-between items-center bg-farm-50">
+            <h3 class="text-xl font-bold text-blueberry-900 flex items-center gap-2">
+                <i class="ph ph-shopping-cart"></i> 購物車
+            </h3>
+            <button onclick="toggleCart()" class="text-gray-500 hover:text-gray-800 p-1">
+                <i class="ph ph-x text-2xl"></i>
+            </button>
+        </div>
+        
+        <div id="cart-items" class="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar">
+            <!-- 購物車內容動態生成 -->
+            <div class="text-center text-gray-400 mt-10">購物車目前是空的</div>
+        </div>
+        
+        <div class="p-4 border-t bg-gray-50">
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-gray-600 font-medium">總計金額</span>
+                <span class="text-2xl font-bold text-blueberry-900" id="cart-total">NT$ 0</span>
+            </div>
+            <button id="btn-checkout" onclick="openCheckout()" class="w-full py-3 bg-blueberry-900 text-white font-bold rounded-lg hover:bg-blueberry-800 transition disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                前往結帳
+            </button>
+        </div>
+    </div>
+
+    <!-- 結帳表單 Modal -->
+    <div id="checkout-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeCheckout()"></div>
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg relative z-10 max-h-[90vh] flex flex-col overflow-hidden animate-fade-in-up">
+            <div class="p-5 border-b flex justify-between items-center bg-blueberry-900 text-white">
+                <h3 class="text-xl font-bold">填寫訂購資料</h3>
+                <button onclick="closeCheckout()" class="hover:text-gray-300 transition">
+                    <i class="ph ph-x text-2xl"></i>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto no-scrollbar">
+                <form id="order-form" onsubmit="submitOrder(event)">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">收件人姓名 *</label>
+                            <input type="text" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blueberry-500 focus:border-blueberry-500 outline-none transition">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">聯絡電話 *</label>
+                            <input type="tel" required pattern="[0-9]{10}" placeholder="09xxxxxxxx" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blueberry-500 focus:border-blueberry-500 outline-none transition">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">寄送方式 *</label>
+                            <select required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blueberry-500 focus:border-blueberry-500 outline-none transition bg-white">
+                                <option value="">請選擇</option>
+                                <option value="home">常溫宅配 (加工品)</option>
+                                <option value="cold">冷藏宅配 (鮮果)</option>
+                                <option value="pickup">農場自取</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">收件地址 *</label>
+                            <input type="text" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blueberry-500 focus:border-blueberry-500 outline-none transition">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">備註留言</label>
+                            <textarea rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blueberry-500 focus:border-blueberry-500 outline-none transition"></textarea>
+                        </div>
+                    </div>
+                    <div class="mt-8 flex gap-3">
+                        <button type="button" onclick="closeCheckout()" class="flex-1 py-3 px-4 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition">
+                            返回修改
+                        </button>
+                        <button type="submit" class="flex-1 py-3 px-4 bg-blueberry-500 text-white font-bold rounded-lg hover:bg-blueberry-600 transition shadow-lg shadow-blueberry-500/30">
+                            確認送出訂單
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 訂單完成 Modal -->
+    <div id="success-modal" class="fixed inset-0 z-[70] hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm relative z-10 p-8 text-center animate-fade-in-up">
+            <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="ph-bold ph-check text-4xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">訂單已送出！</h3>
+            <p class="text-gray-600 mb-6">感謝您的訂購，志偉哥會盡快為您處理，並透過簡訊通知出貨進度。</p>
+            <button onclick="closeSuccess()" class="w-full py-3 bg-blueberry-900 text-white font-bold rounded-lg hover:bg-blueberry-800 transition">
+                繼續逛逛
+            </button>
+        </div>
+    </div>
+
+    <!-- ================= JavaScript 邏輯 ================= -->
+    <script>
+        // --- 1. 商品資料 ---
+        const products = [
+            {
+                id: 1,
+                name: "頂級大果鮮採藍莓",
+                desc: "100g 盒裝 / 清晨採收，保留完整果霜與鮮甜",
+                price: 180,
+                img: "https://images.unsplash.com/photo-1596422846543-75c6fc197f0a?q=80&w=600&auto=format&fit=crop"
+            },
+            {
+                id: 2,
+                name: "家庭號鮮採藍莓",
+                desc: "500g 散裝 / 適合家庭日常享用、打果汁",
+                price: 750,
+                img: "https://images.unsplash.com/photo-1425934398893-310a009a77f9?q=80&w=600&auto=format&fit=crop"
+            },
+            {
+                id: 3,
+                name: "無加糖純粹藍莓果醬",
+                desc: "250g 罐裝 / 僅用藍莓與麥芽糖慢火熬煮",
+                price: 350,
+                img: "https://images.unsplash.com/photo-1582293041079-7814c2f12063?q=80&w=600&auto=format&fit=crop"
+            },
+            {
+                id: 4,
+                name: "手作藍莓鮮果醋",
+                desc: "500ml 瓶裝 / 天然發酵，清新解膩的健康飲品",
+                price: 450,
+                img: "https://plus.unsplash.com/premium_photo-1667051411234-a0357f86eb49?q=80&w=600&auto=format&fit=crop"
+            }
+        ];
+
+        // --- 2. 狀態管理 ---
+        let cart = [];
+
+        // --- 3. DOM 載入與初始化 ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts();
+        });
+
+        // 渲染商品列表
+        function renderProducts() {
+            const container = document.getElementById('product-container');
+            container.innerHTML = products.map(product => `
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 group">
+                    <div class="relative h-48 overflow-hidden bg-gray-100">
+                        <img src="${product.img}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-gray-800 mb-1">${product.name}</h3>
+                        <p class="text-sm text-gray-500 h-10 line-clamp-2 mb-4">${product.desc}</p>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="text-xl font-bold text-blueberry-500">NT$ ${product.price}</span>
+                            <button onclick="addToCart(${product.id})" class="w-10 h-10 rounded-full bg-blueberry-50 text-blueberry-600 flex items-center justify-center hover:bg-blueberry-500 hover:text-white transition">
+                                <i class="ph-bold ph-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- 4. 購物車邏輯 ---
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+
+            if (existingItem) {
+                existingItem.qty += 1;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+            
+            updateCartUI();
+            
+            // 視覺回饋 (開啟側邊欄)
+            if(document.getElementById('cart-sidebar').classList.contains('translate-x-full')) {
+                toggleCart();
+            }
+        }
+
+        function changeQty(productId, delta) {
+            const itemIndex = cart.findIndex(item => item.id === productId);
+            if (itemIndex > -1) {
+                cart[itemIndex].qty += delta;
+                if (cart[itemIndex].qty <= 0) {
+                    cart.splice(itemIndex, 1); // 數量小於等於0則移除
+                }
+                updateCartUI();
+            }
+        }
+
+        function updateCartUI() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartTotalEl = document.getElementById('cart-total');
+            const cartBadge = document.getElementById('cart-badge');
+            const btnCheckout = document.getElementById('btn-checkout');
+
+            let total = 0;
+            let totalItems = 0;
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<div class="text-center text-gray-400 mt-10"><i class="ph ph-basket text-4xl mb-2"></i><br>購物車目前是空的</div>';
+                btnCheckout.disabled = true;
+                cartBadge.classList.add('hidden');
+            } else {
+                cartItemsContainer.innerHTML = cart.map(item => {
+                    const itemTotal = item.price * item.qty;
+                    total += itemTotal;
+                    totalItems += item.qty;
+                    return `
+                        <div class="flex gap-3 bg-white p-3 rounded-lg border border-gray-100 shadow-sm">
+                            <img src="${item.img}" class="w-16 h-16 rounded-md object-cover">
+                            <div class="flex-1">
+                                <h4 class="text-sm font-bold text-gray-800 line-clamp-1">${item.name}</h4>
+                                <div class="text-blueberry-500 font-bold text-sm">NT$ ${item.price}</div>
+                                <div class="flex items-center gap-3 mt-2">
+                                    <div class="flex items-center bg-gray-100 rounded-md">
+                                        <button onclick="changeQty(${item.id}, -1)" class="w-6 h-6 flex items-center justify-center text-gray-600 hover:bg-gray-200 rounded-l-md">-</button>
+                                        <span class="w-8 text-center text-sm font-medium">${item.qty}</span>
+                                        <button onclick="changeQty(${item.id}, 1)" class="w-6 h-6 flex items-center justify-center text-gray-600 hover:bg-gray-200 rounded-r-md">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                btnCheckout.disabled = false;
+                cartBadge.innerText = totalItems;
+                cartBadge.classList.remove('hidden');
+            }
+
+            cartTotalEl.innerText = `NT$ ${total}`;
+        }
+
+        // --- 5. UI 開關控制 ---
+        function toggleCart() {
+            const sidebar = document.getElementById('cart-sidebar');
+            const overlay = document.getElementById('cart-overlay');
+            
+            if (sidebar.classList.contains('translate-x-full')) {
+                // 開啟
+                sidebar.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+            } else {
+                // 關閉
+                sidebar.classList.add('translate-x-full');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+            }
+        }
+
+        function openCheckout() {
+            toggleCart(); // 關閉購物車側欄
+            const modal = document.getElementById('checkout-modal');
+            modal.classList.remove('hidden');
+        }
+
+        function closeCheckout() {
+            const modal = document.getElementById('checkout-modal');
+            modal.classList.add('hidden');
+        }
+
+        // --- 6. 結帳送出邏輯 ---
+        function submitOrder(event) {
+            event.preventDefault(); // 阻止表單預設重整行為
+            
+            // 這裡可以加入讀取狀態...
+
+            // 關閉結帳 Modal
+            closeCheckout();
+            
+            // 清空表單與購物車
+            document.getElementById('order-form').reset();
+            cart = [];
+            updateCartUI();
+
+            // 顯示成功 Modal
+            const successModal = document.getElementById('success-modal');
+            successModal.classList.remove('hidden');
+        }
+
+        function closeSuccess() {
+            const successModal = document.getElementById('success-modal');
+            successModal.classList.add('hidden');
+        }
+
+    </script>
+    
+    <style>
+        /* 補充簡單的進場動畫 */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.4s ease-out forwards;
+        }
+    </style>
+</body>
+</html>
