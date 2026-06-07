@@ -1,0 +1,240 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   HiHi農場 數位自動回覆客服系統 (Chatbot) 專屬樣式檔
+   ========================================================================== */
+
+/* --- 1. 右下角浮動圓形按鈕 --- */
+#chatbot-btn {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 60px;
+    height: 60px;
+    background-color: #4a6fa5; /* 藍莓主色調 */
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(74, 111, 165, 0.4);
+    z-index: 9999;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+#chatbot-btn:hover {
+    transform: scale(1.1) rotate(5deg);
+    background-color: #3b5c8a;
+    box-shadow: 0 6px 20px rgba(74, 111, 165, 0.6);
+}
+
+/* --- 2. 聊天視窗主本體 --- */
+#chatbot-window {
+    position: fixed;
+    bottom: 100px;
+    right: 25px;
+    width: 360px;
+    height: 520px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    display: none; /* 預設隱藏，由 JS 控制顯示為 flex */
+    flex-direction: column;
+    z-index: 9999;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+/* --- 3. 聊天室頁首 (Header) --- */
+#chatbot-header {
+    background: linear-gradient(135deg, #4a6fa5 0%, #3b5c8a 100%);
+    color: #ffffff;
+    padding: 16px;
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#chatbot-close {
+    cursor: pointer;
+    font-size: 18px;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+    padding: 4px;
+}
+
+#chatbot-close:hover {
+    opacity: 1;
+}
+
+/* --- 4. 訊息滾動對話區 --- */
+#chatbot-messages {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    background-color: #f8fafc; /* 乾淨輕盈的背景色 */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    scroll-behavior: smooth;
+}
+
+/* 自訂捲軸樣式 */
+#chatbot-messages::-webkit-scrollbar {
+    width: 6px;
+}
+#chatbot-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+#chatbot-messages::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+/* --- 5. 對話泡泡通用樣式 --- */
+.chat-msg {
+    max-width: 85%;
+    padding: 10px 14px;
+    border-radius: 16px;
+    font-size: 14px;
+    line-height: 1.5;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    animation: fadeInMsg 0.3s ease forwards;
+}
+
+@keyframes fadeInMsg {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 機器人訊息 (左側白底) */
+.msg-bot {
+    background-color: #ffffff;
+    color: #334155;
+    align-self: flex-start;
+    border-top-left-radius: 4px;
+    border: 1px solid #e2e8f0;
+}
+
+/* 使用者訊息 (右側藍底) */
+.msg-user {
+    background-color: #4a6fa5;
+    color: #ffffff;
+    align-self: flex-end;
+    border-top-right-radius: 4px;
+}
+
+/* --- 6. 互動式選項按鈕區 (Menu/Options) --- */
+.chat-options {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 4px;
+    margin-bottom: 8px;
+    animation: fadeInMsg 0.4s ease forwards;
+}
+
+/* 選項按鈕樣式 */
+.chat-btn {
+    background-color: #ffffff;
+    color: #4a6fa5;
+    border: 1px solid #e2e8f0;
+    padding: 9px 14px;
+    border-radius: 24px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 13.5px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.chat-btn:hover {
+    background-color: #f1f5f9;
+    color: #3b5c8a;
+    border-color: #4a6fa5;
+    transform: translateX(4px);
+}
+
+/* 特殊按鈕：返回主選單特別標記（可選） */
+.chat-btn:contains("回主選單"), 
+.chat-btn[onclick*="mainMenu"] {
+    border-color: #cbd5e1;
+    color: #64748b;
+    background-color: #f8fafc;
+}
+
+/* --- 7. 底部文字輸入區塊 --- */
+#chatbot-input-area {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    background-color: #ffffff;
+    border-top: 1px solid #f1f5f9;
+}
+
+#chatbot-input {
+    flex: 1;
+    padding: 10px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 24px;
+    outline: none;
+    font-size: 14px;
+    color: #334155;
+    transition: border-color 0.2s;
+}
+
+#chatbot-input:focus {
+    border-color: #4a6fa5;
+}
+
+#chatbot-input::placeholder {
+    color: #94a3b8;
+}
+
+#chatbot-send {
+    background-color: #4a6fa5;
+    color: #ffffff;
+    border: none;
+    padding: 10px 18px;
+    margin-left: 8px;
+    border-radius: 24px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#chatbot-send:hover {
+    background-color: #3b5c8a;
+}
+
+/* --- 8. 行動裝置響應式 RWD 最佳化 --- */
+@media (max-width: 480px) {
+    #chatbot-window {
+        width: 100vw;
+        height: 100vh;
+        bottom: 0;
+        right: 0;
+        border-radius: 0;
+        border: none;
+    }
+    
+    #chatbot-header {
+        padding: 18px 16px;
+    }
+    
+    #chatbot-btn {
+        bottom: 16px;
+        right: 16px;
+    }
+}
