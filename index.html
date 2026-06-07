@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HiHi 農場 - 來自爸爸對女兒的安心承諾</title>
+    <link rel="stylesheet" href="chatbot.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
+        
+        :root {
+            --berry-purple: #6a5acd;
+            --mist-blue: #778899;
+            --line-green: #00c300;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .bg-berry { background-color: var(--berry-purple); }
+        .text-berry { color: var(--berry-purple); }
+        .border-berry { border-color: var(--berry-purple); }
+        .bg-line { background-color: var(--line-green); }
+
+        /* 動態效果 */
+        .fade-in { animation: fadeIn 0.8s ease-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pulse-soft { animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* 隱藏滾動條但保持功能 */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* 下雨模式轉場 */
+        .rainy-transition { transition: all 0.5s ease; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- 1. 急迫性誘因 Bar (Urgency Bar) -->
+    <div id="urgency-bar" class="sticky top-0 z-[100] bg-berry text-white py-2 px-4 shadow-md overflow-hidden">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-xs md:text-sm font-medium gap-1">
+            <div class="flex items-center gap-2">
+                <i data-lucide="zap" class="w-4 h-4 text-yellow-300"></i>
+                <span id="urgency-text">🔥 今日鮮採藍莓僅剩 <span class="font-bold text-yellow-300">18</span> 盒 | 產地限量直送</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <i data-lucide="clock" class="w-4 h-4"></i>
+                <span>早鳥預購倒數 <span id="countdown" class="font-mono text-yellow-300">02:45:12</span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md border-b sticky top-[40px] md:top-[36px] z-[90] py-3 px-6">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2 group cursor-pointer">
+                <div class="transform group-hover:rotate-12 transition-transform">
+                <img src="https://private-user-images.githubusercontent.com/144664793/604086951-dbe12db5-829b-4a65-abae-7d0a28d5a14a.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3ODA4NTAyOTgsIm5iZiI6MTc4MDg0OTk5OCwicGF0aCI6Ii8xNDQ2NjQ3OTMvNjA0MDg2OTUxLWRiZTEyZGI1LTgyOWItNGE2NS1hYmFlLTdkMGEyOGQ1YTE0YS5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwNjA3JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDYwN1QxNjMzMThaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT04NTczNzIwMzY0ZTUzODBlNDg2M2Y5MjU5YjEyYjg0ZDBkNDRlMDA4NTg0ZTU3OTUxMDFjMzViNzYzYWUzMWIyJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZyZXNwb25zZS1jb250ZW50LXR5cGU9aW1hZ2UlMkZwbmcifQ.lMBXEw0mnZHHY-tInWt5dV4cQ_nv1fOKKSZBEbzWaLI" alt="Logo" class="w-8 h-8 object-contain">
+            </div>
+                <span class="text-xl font-bold tracking-tight text-berry">HiHi農場</span>
+            </div>
+            
+            <div class="hidden md:flex gap-8 font-medium">
+                <a href="#story" class="hover:text-berry transition-colors">品牌故事</a>
+                <a href="#products" class="hover:text-berry transition-colors">安心果物</a>
+                <a href="#visit" class="hover:text-berry transition-colors">採果預約</a>
+                <a href="#question" class="hover:text-berry transition-colors">表單提問</a>
+
+            </div>
+
+            <div class="flex items-center gap-4">
+                <!-- 模擬下雨模式切換開關 -->
+                <button id="rain-toggle" class="p-2 rounded-full bg-gray-100 text-gray-500 hover:bg-indigo-100 hover:text-indigo-600 transition-all" title="模擬氣候變數">
+                    <i data-lucide="sun" id="weather-icon"></i>
+                </button>
+                <button onclick="toggleCart()" class="relative p-2 text-gray-700 hover:text-berry transition-colors">
+                    <i data-lucide="shopping-bag" class="w-6 h-6"></i>
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-white hidden">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 3. Hero Section (感性導流) -->
+    <header class="relative h-[70vh] min-h-[500px] flex items-center justify-center overflow-hidden">
+        <img src="https://private-user-images.githubusercontent.com/144664793/604085803-cc631bf4-0224-42fc-b1a8-cc8c5e58464c.jpg?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3ODA4NTA0MDksIm5iZiI6MTc4MDg1MDEwOSwicGF0aCI6Ii8xNDQ2NjQ3OTMvNjA0MDg1ODAzLWNjNjMxYmY0LTAyMjQtNDJmYy1iMWE4LWNjOGM1ZTU4NDY0Yy5qcGc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwNjA3JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDYwN1QxNjM1MDlaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1mMjZiZTc0NjdhODQ0ODE2YmY4MjQ1OWMxZjM5NGY1M2QxMGRkZmFkM2NiM2U4ZWE0MjhiNzJlNGRkMGFhM2VkJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZyZXNwb25zZS1jb250ZW50LXR5cGU9aW1hZ2UlMkZqcGVnIn0.0Xi70LfzWLi7EaWNDT6yI_Arg1qGwLUHv4TpePCGgGQ" alt="農場封面" class="absolute inset-0 w-full h-full object-cover">
+        <div class="absolute inset-0 bg-black/40"></div>
+        <div class="relative z-10 text-center px-4 max-w-3xl fade-in">
+            <span class="inline-block bg-white/20 backdrop-blur-md text-white px-4 py-1 rounded-full text-sm font-medium mb-4">苗栗後龍｜100%台灣產</span>
+            <h2 class="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">HIHI 農場<br><span class="text-indigo-300">新鮮現摘，樂享自然</span></h2>
+            <p class="text-lg md:text-xl text-white/90 mb-10 font-light leading-relaxed">
+                HI HI 用打聲招呼與您相見，<br class="hidden md:block">後龍大山的HiHi農場，用心呵護這片土地。
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#products" class="bg-white text-berry px-10 py-4 rounded-full font-bold shadow-xl hover:scale-105 transition-transform flex items-center justify-center gap-2">
+                    預約本季甜美 <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                </a>
+                <a href="#story" class="bg-transparent border-2 border-white text-white px-10 py-4 rounded-full font-bold hover:bg-white/10 transition-colors">
+                    聽聽我們的故事
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 4. 雨天韌性模式 Alert (隱藏，僅在下雨模式觸發) -->
+    <div id="rain-alert" class="hidden max-w-7xl mx-auto mt-8 px-6">
+        <div class="bg-indigo-50 border-l-8 border-indigo-600 p-6 rounded-r-2xl shadow-sm flex flex-col md:flex-row items-center gap-6">
+            <div class="bg-indigo-600 p-4 rounded-2xl text-white">
+                <i data-lucide="cloud-rain" class="w-10 h-10 animate-bounce"></i>
+            </div>
+            <div class="flex-1 text-center md:text-left">
+                <h4 class="text-xl font-bold text-indigo-900 mb-1">志偉老闆：真的很抱歉，今天後龍下雨了...</h4>
+                <p class="text-indigo-800 leading-relaxed">
+                    沙地變得泥濘，為了安全我們今天暫停採果。但我幫您準備了<b>「受災戶專屬補償」</b>，官網下單全面 <b>9 折</b>，讓我們把新鮮直接送到您家！
+                </p>
+            </div>
+            <button onclick="scrollToProducts()" class="bg-indigo-600 text-white px-6 py-3 rounded-full font-bold shadow-lg hover:bg-indigo-700 transition-colors shrink-0">
+                領取 9 折優惠
+            </button>
+        </div>
+    </div>
+
+    <!-- 5. 品牌敘事區 (Story) -->
+    <section id="story" class="py-20 px-6 bg-white">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+            <div class="relative">
+                <div class="aspect-[4/5] rounded-[3rem] overflow-hidden shadow-2xl rotate-3">
+                    <img src="https://images.unsplash.com/photo-1498557850523-fd3d118b962e?auto=format&fit=crop&w=800&q=80" alt="栽培紀錄" class="w-full h-full object-cover">
+                </div>
+                <div class="absolute -bottom-10 -right-10 bg-berry p-8 rounded-[2rem] text-white shadow-xl hidden md:block max-w-xs -rotate-3">
+                    <i data-lucide="quote" class="w-8 h-8 mb-4 opacity-50"></i>
+                    <p class="italic font-light">「值得的東西，不一定要用錢來衡量。陪伴土地長大，就是最勇敢的事。」</p>
+                    <p class="mt-4 font-bold">—— 志偉老闆</p>
+                </div>
+            </div>
+            <div class="space-y-8">
+                <div class="inline-block px-4 py-1 bg-indigo-100 text-berry rounded-full text-sm font-bold uppercase tracking-wider">栽培日記</div>
+                <h3 class="text-3xl md:text-4xl font-bold leading-tight">台灣藍莓<br>HIHI農場 100%台灣產</h3>
+                <p class="text-gray-600 leading-relaxed text-lg">
+                    我們自己吃什麼，就分享給大家什麼。避開中午高溫「熱熟」裂果期，僅在清晨由職人手工採摘，確保果皮上的珍貴天然白果粉完美保留。依成熟度排單新鮮直送，到府後請冷藏保存，洗淨後即可讓寶寶、全家人安心連皮大口享用！
+                </p>
+                <div class="grid grid-cols-2 gap-6 pt-4">
+                    <div class="border-l-4 border-berry pl-4">
+                        <div class="text-3xl font-bold">100%</div>
+                        <div class="text-gray-500 text-sm">安心無毒種植</div>
+                    </div>
+                    <div class="border-l-4 border-berry pl-4">
+                        <div class="text-3xl font-bold">18mm+</div>
+                        <div class="text-gray-500 text-sm">特選級大果實</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. 商品展售區 (Products) -->
+    <section id="products" class="py-20 px-6 bg-gray-50">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4 text-center md:text-left">
+                <div class="w-full md:w-auto">
+                    <h3 class="text-3xl font-bold mb-2">後龍藍金</h3>
+                    <p class="text-gray-500">【產地直達餐桌】苗栗後龍自產藍莓禮盒組（完熟現採、附職人透明手提袋）</p>
+                </div>
+                <div class="flex gap-2">
+                    <button class="px-6 py-2 rounded-full bg-berry text-white font-bold text-sm shadow-md">全部商品</button>
+                    <button class="px-6 py-2 rounded-full bg-white text-gray-500 hover:bg-berry hover:text-white font-bold text-sm transition-all shadow-sm">限時禮盒</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- 商品 1 -->
+                <div class="bg-white rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl transition-all border border-gray-100 group">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://private-user-images.githubusercontent.com/144664793/604088681-08fbdeb8-fe3b-4400-96e8-3531815d0c81.jpg?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3ODA4NTA2NTksIm5iZiI6MTc4MDg1MDM1OSwicGF0aCI6Ii8xNDQ2NjQ3OTMvNjA0MDg4NjgxLTA4ZmJkZWI4LWZlM2ItNDQwMC05NmU4LTM1MzE4MTVkMGM4MS5qcGc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwNjA3JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDYwN1QxNjM5MTlaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT05NWNhZTYyN2JlM2MwOTdlZjM5YzIzMDVlM2Q4OTk4OGVjODJjZTRhNTRhZTVmZWQzYjIwYjM4MjUwZjg2NDllJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZyZXNwb25zZS1jb250ZW50LXR5cGU9aW1hZ2UlMkZqcGVnIn0.ld0d3X9YyS7NwTue_dCnJ7ynl8TJvBwzgQ-v3-heZeI" alt="產品1" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-4 py-1 rounded-full text-xs font-bold text-berry">每日限量</div>
+                    </div>
+                    <div class="p-8">
+                        <h4 class="text-xl font-bold mb-2">台灣藍莓 (125g)</h4>
+                        <p class="text-gray-500 text-sm mb-6 h-10 line-clamp-2">海風淬煉出的熟成甜味，薄霧感外皮鎖住滿滿花青素。</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-2xl font-bold text-gray-900">$200 <span class="text-sm font-normal text-gray-400">/ 盒</span></span>
+                            <button onclick="addToCart(1, '台灣藍莓', 200)" class="bg-berry text-white px-6 py-3 rounded-2xl font-bold hover:scale-105 transition-transform flex items-center gap-2 shadow-lg shadow-indigo-200">
+                                <i data-lucide="plus" class="w-5 h-5"></i> 加入
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 商品 2 -->
+                <div class="bg-white rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl transition-all border border-gray-100 group">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://private-user-images.githubusercontent.com/144664793/604088698-2dfc8660-94a0-472f-a8f7-9d28c5e9355a.jpg?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3ODA4NTA2NzEsIm5iZiI6MTc4MDg1MDM3MSwicGF0aCI6Ii8xNDQ2NjQ3OTMvNjA0MDg4Njk4LTJkZmM4NjYwLTk0YTAtNDcyZi1hOGY3LTlkMjhjNWU5MzU1YS5qcGc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwNjA3JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDYwN1QxNjM5MzFaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT03N2FhYTgyYmM0OGViYTNiNmUyMDJmZmY3ZGQxZDQ5MTBhZTQyZjBmODQ0MzVkYzUyZDA5ZDU5NzE3YmZkZTdjJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZyZXNwb25zZS1jb250ZW50LXR5cGU9aW1hZ2UlMkZqcGVnIn0.VsrgUyw1Z6fpP8BNTFwVzgoCizWEsquGmDZS4NQS60g" alt="產品2" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute top-4 right-4 bg-yellow-400 px-4 py-1 rounded-full text-xs font-bold text-white">熱銷推薦</div>
+                    </div>
+                    <div class="p-8">
+                        <h4 class="text-xl font-bold mb-2">藍莓大果禮盒 (6入)</h4>
+                        <p class="text-gray-500 text-sm mb-6 h-10 line-clamp-2">特選 18mm+ 頂級大果，附贈職人透明禮袋。</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-2xl font-bold text-gray-900">$1200 <span class="text-sm font-normal text-gray-400">/ 組</span></span>
+                            <button onclick="addToCart(2, '藍莓大果禮盒', 1200)" class="bg-berry text-white px-6 py-3 rounded-2xl font-bold hover:scale-105 transition-transform flex items-center gap-2 shadow-lg shadow-indigo-200">
+                                <i data-lucide="plus" class="w-5 h-5"></i> 加入
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 商品 3 -->
+                <div class="bg-white rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl transition-all border border-gray-100 group">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://i.pinimg.com/1200x/ab/08/65/ab08659229aa6e57859b8baf9ecfbc68.jpg" alt="藍莓果醬" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute top-4 right-4 bg-indigo-600 px-4 py-1 rounded-full text-xs font-bold text-white">新品上市</div>
+                    </div>
+                    <div class="p-8">
+                        <h4 class="text-xl font-bold mb-2">藍莓果醬 (250g)</h4>
+                        <p class="text-gray-500 text-sm mb-6 h-10 line-clamp-2">將藍莓熬煮製成，保留豐富的果粒，不添加人工色素。</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-2xl font-bold text-gray-900">$330 <span class="text-sm font-normal text-gray-400">/ 罐</span></span>
+                            <button onclick="addToCart(3, '藍莓果醬', 330)" class="bg-berry text-white px-6 py-3 rounded-2xl font-bold hover:scale-105 transition-transform flex items-center gap-2 shadow-lg shadow-indigo-200">
+                                <i data-lucide="plus" class="w-5 h-5"></i> 加入
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. O2O 預約區 (Visit) -->
+    <section id="visit" class="py-24 px-6 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
+            <div class="w-full md:w-1/2 space-y-8">
+                <h3 class="text-3xl md:text-5xl font-bold leading-tight">走進紫色鈴鐺的世界，<br>與亮亮一起採果。</h3>
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4">
+                        <div class="bg-indigo-50 p-3 rounded-2xl text-berry">
+                            <i data-lucide="calendar" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-lg">採預約制入園</h5>
+                            <p class="text-gray-500">每時段限額開放，控管場域清潔，保護蜜蜂授粉。</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="bg-indigo-50 p-3 rounded-2xl text-berry">
+                            <i data-lucide="map-pin" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-lg">苗栗後龍大山 (近大山交流道)</h5>
+                            <p class="text-gray-500">建議穿著舒適止滑鞋類。採果後可至「隱倉咖啡」小憩。</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="bg-gray-900 text-white px-10 py-5 rounded-full font-bold shadow-2xl hover:bg-black transition-all w-full md:w-auto">
+                    即時查詢採果空位
+                </button>
+            </div>
+            <div class="w-full md:w-1/2 relative">
+                <div class="bg-gray-200 aspect-video rounded-[3rem] overflow-hidden shadow-2xl">
+                    <img src="https://private-user-images.githubusercontent.com/144664793/604089114-0194b6de-d05a-445a-bb68-c1ab207a0355.jpg?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3ODA4NTA5NjIsIm5iZiI6MTc4MDg1MDY2MiwicGF0aCI6Ii8xNDQ2NjQ3OTMvNjA0MDg5MTE0LTAxOTRiNmRlLWQwNWEtNDQ1YS1iYjY4LWMxYWIyMDdhMDM1NS5qcGc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwNjA3JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDYwN1QxNjQ0MjJaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0zZmQ0YzI4OTZlMWUzMzM4YjliMWNiNjQ5NDA1ZTIxOTJhMGE5YmQwNDU3NzRjYzAzN2QyZWQ5M2IzOWQ5OGZhJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZyZXNwb25zZS1jb250ZW50LXR5cGU9aW1hZ2UlMkZqcGVnIn0.MrWw-MkfHkXRlhvbrEc50-UoR-vv2IcoDTSKJTnSpag" alt="採果體驗" class="w-full h-full object-cover">
+                </div>
+                <div class="absolute -top-6 -left-6 bg-white p-6 rounded-3xl shadow-xl flex items-center gap-4">
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600 font-bold">98%</div>
+                    <div class="text-sm font-bold">遊客好評<br><span class="text-gray-400 font-normal">「真的好好吃」</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="question" class="max-w-4xl mx-auto my-12 p-6 bg-white rounded-3xl border border-gray-100 shadow-sm">
+    <div class="text-center mb-8">
+        <h3 class="text-2xl font-bold text-slate-800">✉️ 填寫表單提問</h3>
+        <p class="text-gray-400 text-sm mt-2">小編巡田或週三、四隱倉店休時，您可以在此留下問題，我們將透過電話或於下方直接回覆您。</p>
+    </div>
+
+    <form id="qa-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1">您的姓名 / 暱稱 *</label>
+                <input type="text" name="name" required class="w-full px-4 py-2 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1">聯絡電話 *</label>
+                <input type="tel" name="phone" required class="w-full px-4 py-2 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500" placeholder="方便小編電話聯繫您">
+            </div>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">提問類別 *</label>
+            <select name="category" required class="w-full px-4 py-2 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 bg-white">
+                <option value="藍莓宅配">🛒 藍莓/地瓜線上訂購問題</option>
+                <option value="預約採果">🧑‍🌾 預約採果樂/天候狀況查詢</option>
+                <option value="隱倉諮詢">☕ 隱倉穀倉咖啡/場地租借</option>
+                <option value="其他建議">✨ 其他建議與回饋</option>
+            </select>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">您的提問內容 *</label>
+            <textarea name="message" rows="4" required class="w-full px-4 py-2 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500" placeholder="請詳細說明您的問題，例如：想確認 2026/04/15 下午採果是否有受梅雨影響？"></textarea>
+        </div>
+
+        <button type="submit" class="w-full bg-slate-800 text-white font-bold py-3 rounded-xl hover:bg-slate-700 transition duration-200 shadow-md">
+            提交提問表單
+        </button>
+    </form>
+
+    <hr class="my-8 border-gray-100">
+
+    <div>
+        <h4 class="text-lg font-bold text-slate-800 mb-4">💬 近期提問回覆看板</h4>
+        <div class="space-y-4" id="qa-board">
+            
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                <div class="flex justify-between text-xs text-gray-400 mb-2">
+                    <span class="font-medium text-slate-600">🙋‍♂️ 陳*宇 (預約採果)</span>
+                    <span>2026-04-03</span>
+                </div>
+                <p class="text-sm font-bold text-slate-700">Q：請問清明連假如果下雨，大山的藍莓園還能進去採果嗎？網室會不會漏水？</p>
+                <div class="mt-3 pt-3 border-t border-dashed border-slate-200 text-sm text-slate-600">
+                    <p class="leading-relaxed"><span class="font-bold text-indigo-600">👨‍🌾 農場小編回覆：</span>雖然我們有搭建完整的防護網室，且地板為砂質土，但由於雨勢過大會造成泥濘濕滑。為了您的安全與藍莓不被碰爛，連假期間若遇大雨會採「簡訊個別通知暫停」，造成不便請多包涵！</p>
+                </div>
+            </div>
+
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                <div class="flex justify-between text-xs text-gray-400 mb-2">
+                    <span class="font-medium text-slate-600">🙋‍♀️ 林*婷 (線上預購)</span>
+                    <span>2026-03-28</span>
+                </div>
+                <p class="text-sm font-bold text-slate-700">Q：我想一次訂購 20 盒藍莓大果送給台北的員工，可以開立統編收據嗎？</p>
+                <div class="mt-3 pt-3 border-t border-dashed border-slate-200 text-sm text-slate-600">
+                    <p class="leading-relaxed"><span class="font-bold text-indigo-600">👨‍🌾 農場小編回覆：</span>沒問題！HiHi農場莓果合作社可以開立合法的農民收據（可報帳報稅）。請在官網下單時於備註欄填寫您的公司抬頭與統一編號，小編出貨時會連同藍莓冷藏一同幫您寄出喔！</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-950 text-white py-16 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
+            <div class="max-w-md">
+                <div class="flex items-center gap-2 mb-6">
+                    <div class="transform group-hover:rotate-12 transition-transform">
+                       <img src="https://private-user-images.githubusercontent.com/144664793/604086951-dbe12db5-829b-4a65-abae-7d0a28d5a14a.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3ODA4NTAyOTgsIm5iZiI6MTc4MDg0OTk5OCwicGF0aCI6Ii8xNDQ2NjQ3OTMvNjA0MDg2OTUxLWRiZTEyZGI1LTgyOWItNGE2NS1hYmFlLTdkMGEyOGQ1YTE0YS5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwNjA3JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDYwN1QxNjMzMThaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT04NTczNzIwMzY0ZTUzODBlNDg2M2Y5MjU5YjEyYjg0ZDBkNDRlMDA4NTg0ZTU3OTUxMDFjMzViNzYzYWUzMWIyJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZyZXNwb25zZS1jb250ZW50LXR5cGU9aW1hZ2UlMkZwbmcifQ.lMBXEw0mnZHHY-tInWt5dV4cQ_nv1fOKKSZBEbzWaLI" alt="Logo" class="w-8 h-8 object-contain">
+                    </div>
+                    
+                    <span class="text-2xl font-bold">HiHi農場</span>
+                </div>
+                <p class="text-gray-400 leading-relaxed mb-8">
+                    HI HI 用打聲招呼與您相見，後龍大山的 HIHI農場，用心呵護這片土地。
+我們堅持讓大家吃得 安心、健康。支持小農、推廣農業教育，讓更多人看見農村的美好。#藍莓 #地瓜 #西瓜 #香瓜 等等～～
+<li>地址：<a href="https://maps.app.goo.gl/nVvayrUZaPRQthWL7" target="_blank">356苗栗縣後龍鎮大山里東西七路</a></li>
+
+                </p>
+                <div class="flex gap-4">
+
+                    <a href="https://www.facebook.com/profile.php?id=61574558091981" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-berry transition-allfont-bold text-xs">FB</i></a>
+                    <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-berry transition-all font-bold text-xs">LINE</a>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-12">
+                <div>
+                    <h5 class="font-bold mb-6 text-gray-200">關於農場</h5>
+                    <ul class="space-y-4 text-gray-400">
+                        <li><a href="#" class="hover:text-white">栽培故事</a></li>
+                        <li><a href="#" class="hover:text-white">常見問題</a></li>
+                        <li><a href="#" class="hover:text-white">合作洽談</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-bold mb-6 text-gray-200">服務條款</h5>
+                    <ul class="space-y-4 text-gray-400">
+                        <li><a href="#" class="hover:text-white">隱私權政策</a></li>
+                        <li><a href="#" class="hover:text-white">物流退換貨</a></li>
+                        <li><a href="#" class="hover:text-white">防詐騙公告</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto border-t border-gray-800 mt-16 pt-8 text-center text-gray-600 text-sm">
+            © 2026 HiHi Farm. Built with Heart.
+        </div>
+    </footer>
+
+    <!-- --- 浮動組件 (Overlay Components) --- -->
+
+    <!-- A. 購物車與一站式結帳側邊欄 (Cart & Checkout UI) -->
+    <div id="cart-sidebar" class="fixed inset-0 z-[110] flex justify-end invisible transition-all duration-300">
+        <div id="cart-overlay" class="absolute inset-0 bg-black/40 backdrop-blur-sm opacity-0 transition-opacity"></div>
+        <div id="cart-content" class="relative w-full max-w-md bg-white h-full shadow-2xl flex flex-col transform translate-x-full transition-transform">
+            <div class="p-6 border-b flex justify-between items-center bg-gray-50">
+                <h4 class="text-xl font-bold flex items-center gap-2 text-berry"><i data-lucide="shopping-bag"></i> 您的採果籃</h4>
+                <button onclick="toggleCart()" class="p-2 hover:bg-gray-200 rounded-full transition-all"><i data-lucide="x"></i></button>
+            </div>
+            
+            <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-6 no-scrollbar">
+                <!-- 商品會在此動態生成 -->
+                <div class="text-center py-20 text-gray-400">
+                    <i data-lucide="inbox" class="w-12 h-12 mx-auto mb-4 opacity-20"></i>
+                    籃子還是空的，去果園看看吧！
+                </div>
+            </div>
+
+            <div class="p-6 bg-gray-50 border-t space-y-4">
+                <div class="space-y-2 text-sm text-gray-600">
+                    <div class="flex justify-between">
+                        <span>商品小計</span>
+                        <span id="subtotal">$0</span>
+                    </div>
+                    <div id="rain-discount-row" class="hidden justify-between text-indigo-600 font-bold">
+                        <span>☔ 雨天回饋 9 折</span>
+                        <span id="discount-amount">-$0</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="flex items-center gap-1"><i data-lucide="truck" class="w-4 h-4"></i> 冷藏宅配運費</span>
+                        <span id="shipping-fee">$190</span>
+                    </div>
+                    <p id="free-shipping-tip" class="text-[11px] text-right text-berry font-medium italic"></p>
+                </div>
+                <div class="flex justify-between text-2xl font-bold pt-4 border-t border-gray-200">
+                    <span>應付總計</span>
+                    <span id="total-price" class="text-berry">NT$ 0</span>
+                </div>
+                
+                <div class="space-y-3 mt-6">
+                    <button onclick="handleCheckout()" class="w-full bg-line text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:brightness-95 active:scale-95 transition-all shadow-lg">
+                        <i data-lucide="credit-card" class="w-6 h-6"></i> 使用 LINE Pay 快速結帳
+                    </button>
+                    <p class="text-[10px] text-center text-gray-400">整合支付與自動對帳系統，無須手動回填末五碼。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- B. RAG AI 客服助理 (Chatbot) -->
+        <!-- =========================================
+         Chatbot 客服機器人 HTML 結構 (請複製到 body 結束標籤前)
+         ========================================= -->
+    <div id="chatbot-btn">💬</div>
+    
+    <div id="chatbot-window">
+        <div id="chatbot-header">
+            <span>HiHi農場 客服小幫手 👨‍🌾</span>
+            <span id="chatbot-close">✖</span>
+        </div>
+        
+        <div id="chatbot-messages">
+            </div>
+
+        <div id="chatbot-input-area">
+            <input type="text" id="chatbot-input" placeholder="問問看：藍莓土的秘密、亮亮、下雨...">
+            <button id="chatbot-send">發送</button>
+        </div>
+    </div>
+
+    <div id="toast" class="fixed top-24 left-1/2 -translate-x-1/2 z-[150] bg-gray-900 text-white px-6 py-3 rounded-full text-sm font-bold shadow-2xl opacity-0 translate-y-4 pointer-events-none transition-all duration-500">
+        已成功加入採果籃！💜
+    </div>
+    <body>
+    <script>
+        // 初始化 Lucide 圖標 (保留您原本的頂部 Bar 功能)
+        lucide.createIcons();
+
+        // --- 購物車與倒數計時狀態 (保留您原本的網頁功能) ---
+        let cart = [];
+        let isRainy = false;
+        startTimer();
+
+        // --- 客服機器人專屬知識庫腳本 ---
+        const botData = {
+            mainMenu: {
+                text: "您好！歡迎來到【HiHi農場】契作直送市集！🫐\n\n請問今天小編可以幫您什麼忙呢？請點選下方按鈕。",
+                options: [
+                    { label: "🛒 最新鮮果預購", action: "menu_buy" },
+                    { label: "🧑‍🌾 預約採果樂", action: "menu_pick" },
+                    { label: "🙋‍♀️ 尋找真人客服", action: "ans_human" }
+                ]
+            },
+            menus: {
+                menu_buy: {
+                    text: "【🛒 最新鮮果預購】請選擇您想了解的項目：",
+                    options: [
+                        { label: "藍莓怎麼賣？", action: "ans_buy_1" },
+                        { label: "運費與配送", action: "ans_buy_2" },
+                        { label: "⬅️ 回主選單", action: "mainMenu" }
+                    ]
+                },
+                menu_pick: {
+                    text: "【🧑‍🌾 預約採果樂】目前採果皆為預約制入園：",
+                    options: [
+                        { label: "我想預約採果", action: "ans_pick_1" },
+                        { label: "下雨天有開放嗎？", action: "ans_pick_2" },
+                        { label: "⬅️ 回主選單", action: "mainMenu" }
+                    ]
+                }
+            },
+            answers: {
+                ans_buy_1: "【藍莓售價】\n一般果：NT$200/盒(125g)\n大果：NT$240/盒(125g)\n皆為產地苗栗後龍現採現送！歡迎直接在上方商品區下單喔。",
+                ans_buy_2: "【運費配送】\n新鮮藍莓一律採用【黑貓冷藏宅配】直送到家，冷藏運費為 NT$190。運費採貨到付款，無法提供超商取貨喔！",
+                ans_pick_1: "【採果預約】\nHiHi農場嚴格採【預約制入園】，名額有限！請填寫預約表單，並以「收到手機確認簡訊」才算預約成功喔！",
+                ans_pick_2: "【雨天規範】\n後龍的土是沙質土，下雨會變得很泥濘。且藍莓吸水後皮會變脆無法久放，若遇連續大雨，農場會「暫停開放並休園整理」，小編會私訊通知改期。",
+                ans_human: "已為您通知值班小編，請稍候。若遇週三、四隱倉店休，回覆較慢請見諒喔！"
+            },
+            keywords: [
+                { match: ["詐騙", "便宜", "粉紅", "粉紅色"], reply: "⚠️ 【HiHi農場重要防詐騙聲明】⚠️\n最近網路上出現大量冒充小農的假廣告，販售一公斤 $100-$300 或粉紅色的山寨藍莓，那些全部都是詐騙！HiHi農場唯一的正版銷售管道就是我們的官方網站，請提高警覺！" },
+                { match: ["沒預約", "直接去", "直接過去", "現在去"], reply: "🚫 【請注意：農場未預約不開放】🚫\n為了維護藍莓環境與防止蟲害，HiHi農場不接受無預約者入園！想來現場請務必先填寫預約表單並取得簡訊通知喔！" },
+                { match: ["下雨", "雨天", "梅雨"], reply: "後龍的土是沙質土，下雨會變得很泥濘踩不動。而且藍莓吸水後皮會變脆，沒辦法久放，所以雨天我們只能忍痛休園整理喔！" },
+                { match: ["亮亮", "女兒"], reply: "亮亮是志偉老闆的寶貝女兒，因為她愛吃藍莓，爸爸才決定開始種植。現在她每天都會巡園，挑最大顆的當早餐呢！" },
+                { match: ["秘密", "土壤", "好吃的秘密"], reply: "我們的藍莓好吃的秘密在土壤！我們選用進口酸性泥炭土搭配黃金比例的珍珠石與稻殼，讓藍莓根部能好好呼吸。" }
+            ]
+        };
+
+        // --- 客服介面控制邏輯 ---
+        const chatBtn = document.getElementById('chatbot-btn');
+        const chatWindow = document.getElementById('chatbot-window');
+        const chatClose = document.getElementById('chatbot-close');
+        const chatMessages = document.getElementById('chatbot-messages');
+        const chatInput = document.getElementById('chatbot-input');
+        const chatSend = document.getElementById('chatbot-send');
+
+        let isChatInitialized = false;
+
+        // 打開視窗
+        chatBtn.addEventListener('click', () => {
+            chatWindow.style.display = 'flex';
+            chatBtn.style.display = 'none';
+            if (!isChatInitialized) {
+                showBotMenu('mainMenu');
+                isChatInitialized = true;
+            }
+        });
+
+        // 關閉視窗
+        chatClose.addEventListener('click', () => {
+            chatWindow.style.display = 'none';
+            chatBtn.style.display = 'flex';
+        });
+
+        // 生成對話泡泡 (套用 chatbot.css 的類名)
+        function appendBotMessage(sender, text) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `chat-msg ${sender === 'bot' ? 'msg-bot' : 'msg-user'}`;
+            msgDiv.textContent = text;
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // 生成引導按鈕 (套用 chatbot.css 的類名)
+        function appendBotOptions(options) {
+            if (!options || options.length === 0) return;
+            const optionsDiv = document.createElement('div');
+            optionsDiv.className = 'chat-options';
+            options.forEach(opt => {
+                const btnEl = document.createElement('button');
+                btnEl.className = 'chat-btn';
+                btnEl.textContent = opt.label;
+                btnEl.onclick = () => handleBotOptionClick(opt.label, opt.action);
+                optionsDiv.appendChild(btnEl);
+            });
+            chatMessages.appendChild(optionsDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // 點擊按鈕選單邏輯
+        function handleBotOptionClick(label, action) {
+            appendBotMessage('user', label);
+            
+            setTimeout(() => {
+                if (action === 'mainMenu') {
+                    showBotMenu('mainMenu');
+                } else if (botData.menus[action]) {
+                    showBotMenu(action);
+                } else if (botData.answers[action]) {
+                    appendBotMessage('bot', botData.answers[action]);
+                    appendBotOptions([{ label: "⬅️ 回主選單", action: "mainMenu" }]);
+                }
+            }, 300);
+        }
+
+        function showBotMenu(menuKey) {
+            let menu = menuKey === 'mainMenu' ? botData.mainMenu : botData.menus[menuKey];
+            appendBotMessage('bot', menu.text);
+            appendBotOptions(menu.options);
+        }
+
+        // 文字輸入與關鍵字攔截
+        function handleBotUserInput() {
+            const text = chatInput.value.trim();
+            if (!text) return;
+            
+            appendBotMessage('user', text);
+            chatInput.value = '';
+
+            setTimeout(() => {
+                let foundKeyword = false;
+                for (const kwObj of botData.keywords) {
+                    if (kwObj.match.some(keyword => text.includes(keyword))) {
+                        appendBotMessage('bot', kwObj.reply);
+                        appendBotOptions([{ label: "⬅️ 回主選單", action: "mainMenu" }]);
+                        foundKeyword = true;
+                        break;
+                    }
+                }
+                
+                if (!foundKeyword) {
+                    appendBotMessage('bot', "小編目前正在巡田。您可以透過下方選單快速找到解答，或留下聯絡電話，我們將儘速回覆您！");
+                    showBotMenu('mainMenu');
+                }
+            }, 400);
+        }
+
+        chatSend.addEventListener('click', handleBotUserInput);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleBotUserInput();
+        });
+
+        // --- 以下保留您原本網頁的倒數、雨天切換、購物車邏輯 (一字未改) ---
+        function startTimer() {
+            let seconds = 9912;
+            const timerEl = document.getElementById('countdown');
+            setInterval(() => {
+                seconds--;
+                if (seconds < 0) return;
+                const h = Math.floor(seconds / 3600).toString().padStart(2, '0');
+                const m = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
+                const s = (seconds % 60).toString().padStart(2, '0');
+                timerEl.innerText = `${h}:${m}:${s}`;
+            }, 1000);
+        }
+
+        document.getElementById('rain-toggle').addEventListener('click', function() {
+            isRainy = !isRainy;
+            const bar = document.getElementById('urgency-bar');
+            const alert = document.getElementById('rain-alert');
+            const icon = document.getElementById('weather-icon');
+            const text = document.getElementById('urgency-text');
+            if (isRainy) {
+                bar.classList.replace('bg-berry', 'bg-indigo-900');
+                alert.classList.remove('hidden');
+                alert.classList.add('fade-in');
+                icon.setAttribute('data-lucide', 'cloud-rain');
+                text.innerHTML = '☔ <span class="font-bold">後龍梅雨季：</span> 採果暫停開放，官網宅配全面 9 折補償中！';
+                this.classList.replace('text-gray-500', 'text-indigo-600');
+                this.classList.add('bg-indigo-100');
+            } else {
+                bar.classList.replace('bg-indigo-900', 'bg-berry');
+                alert.classList.add('hidden');
+                icon.setAttribute('data-lucide', 'sun');
+                text.innerHTML = '🔥 今日鮮採藍莓僅剩 <span class="font-bold text-yellow-300">18</span> 盒 | 產地限量直送';
+                this.classList.replace('text-indigo-600', 'text-gray-500');
+                this.classList.remove('bg-indigo-100');
+            }
+            lucide.createIcons();
+            renderCart();
+        });
+
+        function toggleCart() {
+            const sidebar = document.getElementById('cart-sidebar');
+            const overlay = document.getElementById('cart-overlay');
+            const content = document.getElementById('cart-content');
+            if (sidebar.classList.contains('invisible')) {
+                sidebar.classList.remove('invisible');
+                setTimeout(() => {
+                    overlay.classList.replace('opacity-0', 'opacity-100');
+                    content.classList.replace('translate-x-full', 'translate-x-0');
+                }, 10);
+            } else {
+                overlay.classList.replace('opacity-100', 'opacity-0');
+                content.classList.replace('translate-x-0', 'translate-x-full');
+                setTimeout(() => sidebar.classList.add('invisible'), 300);
+            }
+        }
+
+        function addToCart(id, name, price) {
+            const existing = cart.find(i => i.id === id);
+            if (existing) { existing.qty++; } else { cart.push({ id, name, price, qty: 1 }); }
+            showToast(`已將 ${name} 加入採果籃！💜`);
+            renderCart();
+            updateCartBadge();
+        }
+
+        function updateCartBadge() {
+            const badge = document.getElementById('cart-count');
+            const totalQty = cart.reduce((acc, i) => acc + i.qty, 0);
+            if (totalQty > 0) { badge.innerText = totalQty; badge.classList.remove('hidden'); } else { badge.classList.add('hidden'); }
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items');
+            const subtotalEl = document.getElementById('subtotal');
+            const totalEl = document.getElementById('total-price');
+            const shippingEl = document.getElementById('shipping-fee');
+            const discountRow = document.getElementById('rain-discount-row');
+            const discountAmount = document.getElementById('discount-amount');
+            const tipEl = document.getElementById('free-shipping-tip');
+
+            if (cart.length === 0) {
+                container.innerHTML = `<div class="text-center py-20 text-gray-400"><i data-lucide="inbox" class="w-12 h-12 mx-auto mb-4 opacity-20"></i>籃子還是空的，去果園看看吧！</div>`;
+                lucide.createIcons();
+                subtotalEl.innerText = '$0';
+                totalEl.innerText = 'NT$ 0';
+                return;
+            }
+
+            container.innerHTML = cart.map(item => `
+                <div class="flex gap-4 items-center bg-white p-3 rounded-2xl border border-gray-100">
+                    <div class="w-16 h-16 bg-indigo-50 rounded-xl flex items-center justify-center text-berry font-bold text-xs">${item.name.substring(0, 2)}</div>
+                    <div class="flex-1">
+                        <h5 class="font-bold text-sm">${item.name}</h5>
+                        <p class="text-xs text-gray-400">$${item.price} x ${item.qty}</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-bold text-berry">$${item.price * item.qty}</div>
+                        <button onclick="removeFromCart(${item.id})" class="text-[10px] text-red-400 hover:underline">移除</button>
+                    </div>
+                </div>
+            `).join('');
+
+            const subtotal = cart.reduce((acc, i) => acc + (i.price * i.qty), 0);
+            let shipping = subtotal >= 2000 ? 0 : 190;
+            let finalPrice = subtotal;
+
+            if (isRainy) {
+                const disc = Math.round(subtotal * 0.1);
+                finalPrice -= disc;
+                discountRow.classList.replace('hidden', 'flex');
+                discountAmount.innerText = `-$${disc}`;
+            } else {
+                discountRow.classList.replace('flex', 'hidden');
+            }
+
+            finalPrice += shipping;
+            subtotalEl.innerText = `$${subtotal}`;
+            shippingEl.innerText = shipping === 0 ? '免運' : `$${shipping}`;
+            totalEl.innerText = `NT$ ${finalPrice}`;
+            
+            if (shipping > 0) {
+                tipEl.innerText = `再買 $${2000 - subtotal} 即可享低溫免運！`;
+            } else {
+                tipEl.innerText = `恭喜已達免運門檻！✨`;
+            }
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(i => i.id !== id);
+            renderCart();
+            updateCartBadge();
+        }
+
+        function handleCheckout() {
+            if (cart.length === 0) return showToast("籃子裡還沒有東西喔！");
+            showToast("正在導向 LINE Pay 安全支付...");
+            setTimeout(() => {
+                alert("支付模擬：已透過 LINE Pay 完成付款！志偉老闆已收到您的支持，我們將盡快安排出貨。");
+                cart = [];
+                renderCart();
+                updateCartBadge();
+                toggleCart();
+            }, 1000);
+        }
+
+        function showToast(text) {
+            const toast = document.getElementById('toast');
+            toast.innerText = text;
+            toast.classList.replace('opacity-0', 'opacity-100');
+            toast.classList.replace('translate-y-4', 'translate-y-0');
+            setTimeout(() => {
+                toast.classList.replace('opacity-100', 'opacity-0');
+                toast.classList.replace('translate-y-0', 'translate-y-4');
+            }, 2500);
+        }
+
+        function scrollToProducts() {
+            document.getElementById('products').scrollIntoView();
+        }
+    
+
+        // --- 功能函數 ---
+
+        // 1. 倒數計時器
+        function startTimer() {
+            let seconds = 9912;
+            const timerEl = document.getElementById('countdown');
+            setInterval(() => {
+                seconds--;
+                if (seconds < 0) return;
+                const h = Math.floor(seconds / 3600).toString().padStart(2, '0');
+                const m = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
+                const s = (seconds % 60).toString().padStart(2, '0');
+                timerEl.innerText = `${h}:${m}:${s}`;
+            }, 1000);
+        }
+        startTimer();
+
+        // 2. 模擬下雨模式切換
+        document.getElementById('rain-toggle').addEventListener('click', function() {
+            isRainy = !isRainy;
+            const bar = document.getElementById('urgency-bar');
+            const alert = document.getElementById('rain-alert');
+            const icon = document.getElementById('weather-icon');
+            const text = document.getElementById('urgency-text');
+
+            if (isRainy) {
+                bar.classList.replace('bg-berry', 'bg-indigo-900');
+                alert.classList.remove('hidden');
+                alert.classList.add('fade-in');
+                icon.setAttribute('data-lucide', 'cloud-rain');
+                text.innerHTML = '☔ <span class="font-bold">後龍梅雨季：</span> 採果暫停開放，官網宅配全面 9 折補償中！';
+                this.classList.replace('text-gray-500', 'text-indigo-600');
+                this.classList.add('bg-indigo-100');
+            } else {
+                bar.classList.replace('bg-indigo-900', 'bg-berry');
+                alert.classList.add('hidden');
+                icon.setAttribute('data-lucide', 'sun');
+                text.innerHTML = '🔥 今日鮮採藍莓僅剩 <span class="font-bold text-yellow-300">18</span> 盒 | 產地限量直送';
+                this.classList.replace('text-indigo-600', 'text-gray-500');
+                this.classList.remove('bg-indigo-100');
+            }
+            lucide.createIcons();
+            renderCart(); // 重新計算折扣
+        });
+
+        // 3. 購物車邏輯
+        function toggleCart() {
+            const sidebar = document.getElementById('cart-sidebar');
+            const overlay = document.getElementById('cart-overlay');
+            const content = document.getElementById('cart-content');
+            
+            if (sidebar.classList.contains('invisible')) {
+                sidebar.classList.remove('invisible');
+                setTimeout(() => {
+                    overlay.classList.replace('opacity-0', 'opacity-100');
+                    content.classList.replace('translate-x-full', 'translate-x-0');
+                }, 10);
+            } else {
+                overlay.classList.replace('opacity-100', 'opacity-0');
+                content.classList.replace('translate-x-0', 'translate-x-full');
+                setTimeout(() => sidebar.classList.add('invisible'), 300);
+            }
+        }
+
+        function addToCart(id, name, price) {
+            const existing = cart.find(i => i.id === id);
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({ id, name, price, qty: 1 });
+            }
+            showToast(`已將 ${name} 加入採果籃！💜`);
+            renderCart();
+            updateCartBadge();
+        }
+
+        function updateCartBadge() {
+            const badge = document.getElementById('cart-count');
+            const totalQty = cart.reduce((acc, i) => acc + i.qty, 0);
+            if (totalQty > 0) {
+                badge.innerText = totalQty;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items');
+            const subtotalEl = document.getElementById('subtotal');
+            const totalEl = document.getElementById('total-price');
+            const shippingEl = document.getElementById('shipping-fee');
+            const discountRow = document.getElementById('rain-discount-row');
+            const discountAmount = document.getElementById('discount-amount');
+            const tipEl = document.getElementById('free-shipping-tip');
+
+            if (cart.length === 0) {
+                container.innerHTML = `<div class="text-center py-20 text-gray-400"><i data-lucide="inbox" class="w-12 h-12 mx-auto mb-4 opacity-20"></i>籃子還是空的，去果園看看吧！</div>`;
+                lucide.createIcons();
+                subtotalEl.innerText = '$0';
+                totalEl.innerText = 'NT$ 0';
+                return;
+            }
+
+            container.innerHTML = cart.map(item => `
+                <div class="flex gap-4 items-center bg-white p-3 rounded-2xl border border-gray-100">
+                    <div class="w-16 h-16 bg-indigo-50 rounded-xl flex items-center justify-center text-berry font-bold text-xs">${item.name.substring(0, 2)}</div>
+                    <div class="flex-1">
+                        <h5 class="font-bold text-sm">${item.name}</h5>
+                        <p class="text-xs text-gray-400">$${item.price} x ${item.qty}</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-bold text-berry">$${item.price * item.qty}</div>
+                        <button onclick="removeFromCart(${item.id})" class="text-[10px] text-red-400 hover:underline">移除</button>
+                    </div>
+                </div>
+            `).join('');
+
+            const subtotal = cart.reduce((acc, i) => acc + (i.price * i.qty), 0);
+            let shipping = subtotal >= 2000 ? 0 : 190;
+            let finalPrice = subtotal;
+
+            if (isRainy) {
+                const disc = Math.round(subtotal * 0.1);
+                finalPrice -= disc;
+                discountRow.classList.replace('hidden', 'flex');
+                discountAmount.innerText = `-$${disc}`;
+            } else {
+                discountRow.classList.replace('flex', 'hidden');
+            }
+
+            finalPrice += shipping;
+
+            subtotalEl.innerText = `$${subtotal}`;
+            shippingEl.innerText = shipping === 0 ? '免運' : `$${shipping}`;
+            totalEl.innerText = `NT$ ${finalPrice}`;
+            
+            if (shipping > 0) {
+                tipEl.innerText = `再買 $${2000 - subtotal} 即可享低溫免運！`;
+            } else {
+                tipEl.innerText = `恭喜已達免運門檻！✨`;
+            }
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(i => i.id !== id);
+            renderCart();
+            updateCartBadge();
+        }
+
+        function handleCheckout() {
+            if (cart.length === 0) return showToast("籃子裡還沒有東西喔！");
+            showToast("正在導向 LINE Pay 安全支付...");
+            setTimeout(() => {
+                alert("支付模擬：已透過 LINE Pay 完成付款！志偉老闆已收到您的支持，我們將盡快安排出貨。");
+                cart = [];
+                renderCart();
+                updateCartBadge();
+                toggleCart();
+            }, 1000);
+        }
+
+        // 4. RAG AI Chatbot 邏輯
+        function toggleChat() {
+            const win = document.getElementById('chat-window');
+            win.classList.toggle('hidden');
+        }
+
+        document.getElementById('chat-bubble').addEventListener('click', toggleChat);
+
+        document.getElementById('chat-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const input = document.getElementById('chat-input');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            addMessage(msg, 'user');
+            input.value = '';
+
+            // 模擬 RAG 檢索與老闆語氣回應
+            setTimeout(() => {
+                let reply = "這個問題問得好！關於這片土地，我有好多故事可以跟你分享。你可以問問看關於「亮亮」、「下雨」或是「種植秘密」喔！";
+                for (let key in RAG_KB) {
+                    if (msg.includes(key)) {
+                        reply = RAG_KB[key];
+                        break;
+                    }
+                }
+                addMessage(reply, 'ai');
+            }, 600);
+        });
+
+        function addMessage(text, role) {
+            const container = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            div.className = `flex ${role === 'user' ? 'justify-end' : 'justify-start'}`;
+            div.innerHTML = `
+                <div class="max-w-[85%] p-3 shadow-sm ${role === 'user' ? 'bg-berry text-white rounded-2xl rounded-tr-none' : 'bg-white text-gray-700 rounded-2xl rounded-tl-none'} leading-relaxed">
+                    ${text}
+                </div>
+            `;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // 5. 其他 UI 小工具
+        function showToast(text) {
+            const toast = document.getElementById('toast');
+            toast.innerText = text;
+            toast.classList.replace('opacity-0', 'opacity-100');
+            toast.classList.replace('translate-y-4', 'translate-y-0');
+            setTimeout(() => {
+                toast.classList.replace('opacity-100', 'opacity-0');
+                toast.classList.replace('translate-y-0', 'translate-y-4');
+            }, 2500);
+        }
+
+        function scrollToProducts() {
+            document.getElementById('products').scrollIntoView();
+        }
+    </script>
+</body>
+</html>
